@@ -1,9 +1,11 @@
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: sans-serif;
 }
 
-h1 {
-  font-size: 22px;
+nav {
+  margin: 10px 0;
+  background: #eee;
+  padding: 10px;
 }
 
 .flex-container {
@@ -26,7 +28,7 @@ section {
   display: inline-block;
   padding: 10px;
   margin: 5px;
-  min-width: 30px;
+  min-width: 35px;
   text-align: center;
 }
 
@@ -34,6 +36,10 @@ section {
   margin-right: 10px;
 }
 
-#game-state .move i {
-  font-weight: bold;
+#game-state .move.no-moves b {
+  display: none;
+}
+
+#game-state .move.no-moves {
+  color: #717171;
 }

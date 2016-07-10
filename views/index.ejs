@@ -4,14 +4,20 @@
     <title>Corridor</title>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=1, initial-scale=1" />
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <h1>Corridor</h1>
+    <nav>
+      <a href="/">New Game</a>
+    </nav>
     <section id="game-state" class="flex-container">
       <% state.split(";").forEach(function(move, i) { %>
-        <div class="move"><b><%- i %>.</b> <%- move || 'Avventer 1. trekk' %></div>
+        <div class="move <%- !move ? 'no-moves' : '' %>">
+          <b><%- i + 1 %>.</b>
+          <span>
+            <%- move || 'Awaiting first move' %>
+          </span>
+        </div>
       <% }) %>
     </section>
     <section id="valid-pawn-moves" class="moves">
