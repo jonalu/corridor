@@ -1,0 +1,39 @@
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+section {
+  margin-bottom: 10px;
+}
+
+#game-state {
+  padding: 10px;
+  background: #fdf6b4;
+  border: 1px solid #c7b50f;
+}
+
+.moves a {
+  border: 1px dashed #129604;
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  min-width: 30px;
+  text-align: center;
+}
+
+#game-state .move {
+  margin-right: 10px;
+}
+
+#game-state .move i {
+  font-weight: bold;
+}
