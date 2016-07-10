@@ -23,7 +23,7 @@ const toObjectOfKeys = (arr) =>
   }, {})
 
 describe('get all legal wall moves', () => {
-  it('should return all legal pawn moves', () => {
+  it('should return all legal wall moves', () => {
     expect(getLegalWallMoves('').indexOf('VA1')).to.not.equal(-1);
     expect(getLegalWallMoves('').indexOf('VH1')).to.not.equal(-1);
     expect(getLegalWallMoves('').indexOf('HA1')).to.not.equal(-1);
@@ -43,6 +43,23 @@ describe('get all legal pawn moves', () => {
       .to.have.all.keys('H2', 'G1', 'I1');
     expect(toObjectOfKeys(getLegalPawnMoves('F1;F9;G1;G9;H1;H9;I1;I9;I2;I8;I3;I7;I4;I6;I5'))).to.have.all.keys('H6', 'I4', 'I7');
   })
+
+  it('should not cross a horizontal wall', () => {
+    expect(getLegalPawnMoves('HE8').indexOf('D9')).to.not.equal(-1)
+    expect(getLegalPawnMoves('HE8').indexOf('F9')).to.not.equal(-1)
+    expect(getLegalPawnMoves('HE8').indexOf('E8')).to.equal(-1)
+    expect(getLegalPawnMoves('HE7;E8;E2').indexOf('E7')).to.equal(-1)
+    expect(getLegalPawnMoves('HE7;E8;E2').indexOf('D8')).to.not.equal(-1)
+    expect(getLegalPawnMoves('HE7;E8;E2').indexOf('F8')).to.not.equal(-1)
+    expect(getLegalPawnMoves('HE7;E8;E2').indexOf('E9')).to.not.equal(-1)
+  })
+
+  it('should not cross a vertical wall', () => {
+    expect(getLegalPawnMoves('VE8').indexOf('F9')).to.equal(-1)
+    expect(getLegalPawnMoves('VE8').indexOf('E8')).to.not.equal(-1)
+    expect(getLegalPawnMoves('VE8').indexOf('D9')).to.not.equal(-1)
+  })
+
 })
 
 describe('headToHead', () => {

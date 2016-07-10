@@ -19,17 +19,21 @@ section {
 
 #game-state {
   padding: 10px;
-  background: #fdf6b4;
+  background: rgba(250, 250, 180, 0.5);
   border: 1px solid #c7b50f;
 }
 
 .moves a {
-  border: 1px dashed #129604;
+  border: 1px dashed #d0d0d0;
   display: inline-block;
   padding: 10px;
   margin: 5px;
   min-width: 35px;
   text-align: center;
+}
+
+.moves a:hover, .moves a:focus {
+  background: rgba(250, 250, 180, 0.5);
 }
 
 #game-state .move {
