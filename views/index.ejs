@@ -20,6 +20,9 @@
         </div>
       <% }) %>
     </section>
+    <section id="boards">
+      <canvas id="game-board" width="360" height="360"></canvas>
+    </section>
     <section id="valid-pawn-moves" class="moves">
       <% validPawnMoves.forEach(function(move) { %>
         <a href="/move/<%- move %>?state=<%- state %>"><%- move %></a>
@@ -30,5 +33,14 @@
         <a href="/move/<%- move %>?state=<%- state %>"><%- move %></a>
       <% }); %>
     </section>
+    <script>
+      window.gamestate = {
+        state: "<%- state %>",
+        validPawnMoves: "<%- validPawnMoves %>",
+        validWallMoves: "<%- validWallMoves %>",
+        pawnPositions: <%- JSON.stringify(pawnPositions) %>
+      }
+    </script>
+    <script type="text/javascript" src="/static/client.js"></script>
   </body>
 </html>
