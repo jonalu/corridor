@@ -1,13 +1,24 @@
 document.addEventListener("DOMContentLoaded", function(e) {
   var gameBoard = document.getElementById('game-board');
-  var corridorClient = new CorridorClient({ el: gameBoard, gamestate: window.gamestate });
+  window.corridorClient = new CorridorClient({
+    el: gameBoard,
+    gamestate: window.gamestate
+  });
   corridorClient.drawBoard();
   corridorClient.drawPawns();
+  corridorClient.drawLegalMoves();
 });
 
 CorridorClient = function (options) {
-  this.defaults = { squares: 9, gridStroke: '#9d72e8' };
-  this.options = Object.assign(true, this.defaults, options);
+
+  this.defaults = function () {
+    return {
+      squares: 9,
+      gridStroke: '#aaa'
+    }
+  };
+
+  this.options = Object.assign(true, this.defaults(), options);
   this.ctx = this.options.el.getContext('2d');
   this.wRect = this.options.el.getAttribute('width') / this.options.squares;
 
@@ -29,8 +40,16 @@ CorridorClient = function (options) {
     }.bind(this))
   }
 
-  this.drawWalls = function () {
+  this.drawLegalMoves = function () {
+    var legalPawnMoves = this.options.gamestate.legalPawnMoves;
+    legalPawnMoves.forEach(function(move) {
+      this.ctx.fillStyle = 'rgba(100, 210, 35, 0.3)';
+      this.ctx.fillRect(move.y * this.wRect, move.x * this.wRect, this.wRect, this.wRect)
+    }.bind(this))
+  }
 
+  this.drawWalls = function () {
+    //todo
   }
 
   this.toSquare = function (x,y) {
