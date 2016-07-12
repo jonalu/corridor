@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
   corridorClient.drawBoard();
   corridorClient.drawPawns();
   corridorClient.drawLegalMoves();
+  corridorClient.drawWalls();
   gameBoard.addEventListener('click', corridorClient.handleClick);
 });
 
@@ -28,7 +29,7 @@ CorridorClient = function (options) {
       for (var j = 0; j < this.options.squares; j++){
         this.ctx.strokeStyle = this.options.gridStroke;
         this.ctx.strokeRect(j * this.wRect, i * this.wRect, this.wRect, this.wRect);
-        this.ctx.fillText(this.toSquare(j,i), j * this.wRect + 2, i * this.wRect + 10);
+        this.ctx.fillText(this.toSquare(j,i), j * this.wRect + 2, i * this.wRect + 12);
       }
     }
   }
@@ -58,7 +59,15 @@ CorridorClient = function (options) {
   }.bind(this)
 
   this.drawWalls = function () {
-    //todo
+    var walls = this.options.gamestate.wallPositions;
+    walls.forEach(function(wall) {
+      var height = wall.direction === 'H' ? 2 : this.wRect * 2;
+      var width = wall.direction === 'V' ? 2 : this.wRect * 2;
+      var x = wall.x * this.wRect;
+      var y = wall.y * this.wRect + this.wRect;
+      this.ctx.fillStyle = '#E91E63';
+      this.ctx.fillRect(x, y, width, height)
+    }.bind(this))
   }
 
   this.toSquare = function (x,y) {

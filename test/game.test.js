@@ -5,11 +5,13 @@ import {
   isValidMove,
   updateGameState,
   toSquare,
+  fromSquare,
   neighbours,
   isWallMove,
   nextPlayer,
   groupMovesByPlayer,
   locateNextPawn,
+  locateWalls,
   getMoves,
   headToHead,
   getLegalPawnMoves,
@@ -21,6 +23,36 @@ const toObjectOfKeys = (arr) =>
   arr.reduce( (prev, curr, i) => {
     prev[curr] = curr; return prev
   }, {})
+
+describe('fromSquare', () => {
+  it('should return x,y coordinate from square', () => {
+    expect(fromSquare('F1')).to.deep.equal({
+      x: 5,
+      y: 0
+    })
+  })
+  it('should return x,y and direction from wall move', () => {
+    expect(fromSquare('HF1')).to.deep.equal({
+      x: 5,
+      y: 0,
+      direction: 'H'
+    })
+
+    expect(fromSquare('VF1')).to.deep.equal({
+      x: 5,
+      y: 0,
+      direction: 'V'
+    })
+  })
+})
+
+describe('locateWalls', () => {
+  it('should return all walls', () => {
+    expect(locateWalls('F1;F9;G1;G9;H1;H9;I1')).to.deep.equal([
+      'H1', 'H9'
+    ])
+  })
+})
 
 describe('get all legal wall moves', () => {
   it('should return all legal wall moves', () => {
