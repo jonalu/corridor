@@ -57,6 +57,7 @@ describe('get all legal wall moves', () => {
 
 describe('get all legal pawn moves', () => {
   it('should return all legal pawn moves', () => {
+    expect(toObjectOfKeys(getLegalPawnMoves('vD1;vE1;hD2;E8;E2;E7'))).to.have.all.keys('E1')
     expect(toObjectOfKeys(getLegalPawnMoves('E2;E8;E3;E7;E4;E6;E5')))
       .to.have.all.keys('D6', 'F6', 'E4', 'E7');
     expect(toObjectOfKeys(getLegalPawnMoves('E2;E8;E3;E7;E4;E6;E5;D6;E6')))
@@ -172,6 +173,8 @@ describe('Corridor - game', () => {
   })
 
   it('should detect colliding walls', () => {
+    expect(isCollidingWall('hA1', 'hB1')).to.be.true
+    expect(isCollidingWall('hA1', 'vA1')).to.be.true
     expect(isCollidingWall('hD2', 'vD2')).to.be.true
     expect(isCollidingWall('hD2', 'vG2')).to.be.false
     expect(isCollidingWall('vC6', 'vC6')).to.be.true
@@ -184,5 +187,10 @@ describe('Corridor - game', () => {
     expect(isValidMove('E2;E8;E3;E7;E4;E6;E5;D6;E6', 'F6')).to.equal(true);
     expect(isValidMove('E2;E8;E3;E7;E4;E6;E5;D6;E6', 'E6')).to.equal(false);
   })
+
+  it('should invalidate illegal closing wall', () => {
+    expect(isValidMove('vD1;vE1', 'hD2')).to.equal(false);
+  })
+
 
 })
