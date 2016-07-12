@@ -27,9 +27,10 @@ CorridorClient = function (options) {
   this.drawBoard = function () {
     for (var i = 0; i < this.options.squares; i++){
       for (var j = 0; j < this.options.squares; j++){
-        this.ctx.strokeStyle = this.options.gridStroke;
-        this.ctx.strokeRect(j * this.wRect, i * this.wRect, this.wRect, this.wRect);
-        this.ctx.fillText(this.toSquare(j,i), j * this.wRect + 2, i * this.wRect + 12);
+        this.ctx.fillStyle = (i+j) % 2 ? '#7c7880' : '#b1b1b1';
+        this.ctx.fillRect(j * this.wRect, i * this.wRect, this.wRect, this.wRect)
+        this.ctx.fillStyle = '#aaa';
+        this.ctx.fillText(this.toSquare(j,i), j * this.wRect + 4, i * this.wRect + 12);
       }
     }
   }
@@ -37,8 +38,9 @@ CorridorClient = function (options) {
   this.drawPawns = function () {
     var pawns = this.options.gamestate.pawnPositions;
     pawns.forEach(function(pawn, idx) {
-      this.ctx.fillStyle = 'rgb(' + 255 * idx + ',0,0)';
-      this.ctx.fillRect(pawn.x * this.wRect, pawn.y * this.wRect, this.wRect, this.wRect)
+      this.ctx.fillStyle = idx ? '#000' : '#fff';
+      this.ctx.font="30px Arial";
+      this.ctx.fillText('♟', (pawn.x * this.wRect) + 10, (pawn.y * this.wRect) + 35);
     }.bind(this))
   }
 
@@ -63,17 +65,17 @@ CorridorClient = function (options) {
   this.drawWalls = function () {
     var walls = this.options.gamestate.wallPositions;
     walls.forEach(function(wall) {
-      var height = wall.direction === 'v' ? 2 : this.wRect * 2;
-      var width = wall.direction === 'h' ? 2 : this.wRect * 2;
+      var height = wall.direction === 'v' ? 4 : this.wRect * 4;
+      var width = wall.direction === 'h' ? 4 : this.wRect * 4;
       var x = wall.x * this.wRect;
       var y = wall.y * this.wRect;
       if(wall.direction === 'v') {
-        x += this.wRect;
+        x += this.wRect - 2;
       }
       if(wall.direction === 'h') {
-        y += this.wRect;
+        y += this.wRect - 2;
       }
-      this.ctx.fillStyle = 'rgb(0, 0, 0)';
+      this.ctx.fillStyle = 'rgb(200, 0, 0)';
       this.ctx.fillRect(x, y, height, width)
     }.bind(this))
   }
