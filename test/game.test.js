@@ -1,6 +1,5 @@
 'use strict'
-import {expect, should} from 'chai'
-import chai from 'chai'
+import {expect, should} from 'chai';
 import {
   isValidMove,
   updateGameState,
@@ -12,56 +11,47 @@ import {
   groupMovesByPlayer,
   locateNextPawn,
   locateWalls,
-  getMoves,
   headToHead,
   getLegalPawnMoves,
   getLegalWallMoves,
   isCollidingWall
-} from '../lib/game'
+} from '../lib/game';
 
 const toObjectOfKeys = (arr) =>
-  arr.reduce( (prev, curr, i) => {
-    prev[curr] = curr; return prev
+  arr.reduce((prev, curr, i) => {
+    prev[curr] = curr;
+    return prev
   }, {})
 
 describe('fromSquare', () => {
   it('should return x,y coordinate from square', () => {
-    expect(fromSquare('F1')).to.deep.equal({
-      x: 5,
-      y: 0
-    })
+    expect(fromSquare('A1')).to.deep.equal({x: 0, y: 0})
+    expect(fromSquare('A9')).to.deep.equal({x: 0, y: 8})
+    expect(fromSquare('I1')).to.deep.equal({x: 8, y: 0})
+    expect(fromSquare('I9')).to.deep.equal({x: 8, y: 8})
+    expect(fromSquare('F1')).to.deep.equal({x: 5, y: 0})
   })
   it('should return x,y and direction from wall move', () => {
-    expect(fromSquare('HF1')).to.deep.equal({
-      x: 5,
-      y: 0,
-      direction: 'H'
-    })
-
-    expect(fromSquare('VF1')).to.deep.equal({
-      x: 5,
-      y: 0,
-      direction: 'V'
-    })
+    expect(fromSquare('hF1')).to.deep.equal({x: 5, y: 0, direction: 'h'})
+    expect(fromSquare('vF1')).to.deep.equal({x: 5, y: 0, direction: 'v'})
   })
 })
 
 describe('locateWalls', () => {
   it('should return all walls', () => {
-    expect(locateWalls('F1;F9;G1;G9;H1;H9;I1')).to.deep.equal([
-      'H1', 'H9'
-    ])
+    expect(locateWalls('F1;F9;G1;G9;H1;H9;I1')).to.deep.equal([])
+    expect(locateWalls('F1;F9;vG1;G9;hH1;H9;I1')).to.deep.equal(['vG1', 'hH1'])
   })
 })
 
 describe('get all legal wall moves', () => {
   it('should return all legal wall moves', () => {
-    expect(getLegalWallMoves('').indexOf('VA1')).to.not.equal(-1);
-    expect(getLegalWallMoves('').indexOf('VH1')).to.not.equal(-1);
-    expect(getLegalWallMoves('').indexOf('HA1')).to.not.equal(-1);
-    expect(getLegalWallMoves('').indexOf('HH1')).to.not.equal(-1);
-    expect(getLegalWallMoves('HH1').indexOf('HH1')).to.equal(-1);
-    expect(getLegalWallMoves('HH1').indexOf('VA1')).to.not.equal(-1);
+    expect(getLegalWallMoves('').indexOf('vA1')).to.not.equal(-1);
+    expect(getLegalWallMoves('').indexOf('vH1')).to.not.equal(-1);
+    expect(getLegalWallMoves('').indexOf('hA1')).to.not.equal(-1);
+    expect(getLegalWallMoves('').indexOf('hH1')).to.not.equal(-1);
+    expect(getLegalWallMoves('hH1').indexOf('hH1')).to.equal(-1);
+    expect(getLegalWallMoves('hH1').indexOf('vA1')).to.not.equal(-1);
   })
 })
 
@@ -77,19 +67,19 @@ describe('get all legal pawn moves', () => {
   })
 
   it('should not cross a horizontal wall', () => {
-    expect(getLegalPawnMoves('HE8').indexOf('D9')).to.not.equal(-1)
-    expect(getLegalPawnMoves('HE8').indexOf('F9')).to.not.equal(-1)
-    expect(getLegalPawnMoves('HE8').indexOf('E8')).to.equal(-1)
-    expect(getLegalPawnMoves('HE7;E8;E2').indexOf('E7')).to.equal(-1)
-    expect(getLegalPawnMoves('HE7;E8;E2').indexOf('D8')).to.not.equal(-1)
-    expect(getLegalPawnMoves('HE7;E8;E2').indexOf('F8')).to.not.equal(-1)
-    expect(getLegalPawnMoves('HE7;E8;E2').indexOf('E9')).to.not.equal(-1)
+    expect(getLegalPawnMoves('hE8').indexOf('D9')).to.not.equal(-1)
+    expect(getLegalPawnMoves('hE8').indexOf('F9')).to.not.equal(-1)
+    expect(getLegalPawnMoves('hE8').indexOf('E8')).to.equal(-1)
+    expect(getLegalPawnMoves('hE7;E8;E2').indexOf('E7')).to.equal(-1)
+    expect(getLegalPawnMoves('hE7;E8;E2').indexOf('D8')).to.not.equal(-1)
+    expect(getLegalPawnMoves('hE7;E8;E2').indexOf('F8')).to.not.equal(-1)
+    expect(getLegalPawnMoves('hE7;E8;E2').indexOf('E9')).to.not.equal(-1)
   })
 
   it('should not cross a vertical wall', () => {
-    expect(getLegalPawnMoves('VE8').indexOf('F9')).to.equal(-1)
-    expect(getLegalPawnMoves('VE8').indexOf('E8')).to.not.equal(-1)
-    expect(getLegalPawnMoves('VE8').indexOf('D9')).to.not.equal(-1)
+    expect(getLegalPawnMoves('vE8').indexOf('F9')).to.equal(-1)
+    expect(getLegalPawnMoves('vE8').indexOf('E8')).to.not.equal(-1)
+    expect(getLegalPawnMoves('vE8').indexOf('D9')).to.not.equal(-1)
   })
 
 })
@@ -113,7 +103,7 @@ describe('locateNextPawn', () => {
 
 describe('filterMovesByPlayer', () => {
   it('should filter moves by player', () => {
-    expect(groupMovesByPlayer('E2;E8;E3;E7')).to.deep.equal([['E2','E3'],['E8', 'E7']])
+    expect(groupMovesByPlayer('E2;E8;E3;E7')).to.deep.equal([['E2', 'E3'], ['E8', 'E7']])
   })
 })
 
@@ -136,7 +126,7 @@ describe('neighbours', () => {
 
 describe('to square', () => {
   it('should translate from coordinates to square', () => {
-    expect(toSquare(2,2)).to.equal('C3')
+    expect(toSquare(2, 2)).to.equal('C3')
   })
 })
 
@@ -144,8 +134,8 @@ describe('Corridor - game', () => {
 
   it('should validate legal first move', () => {
     expect(isValidMove("", "E2")).to.equal(true);
-    expect(isValidMove("", "HA1")).to.equal(true);
-    expect(isValidMove("", "VA1")).to.equal(true);
+    expect(isValidMove("", "hA1")).to.equal(true);
+    expect(isValidMove("", "vA1")).to.equal(true);
     expect(isValidMove("", "D1")).to.equal(true);
     expect(isValidMove("", "F1")).to.equal(true);
   })
@@ -154,14 +144,14 @@ describe('Corridor - game', () => {
     expect(isValidMove("", "C1")).to.equal(false);
     expect(isValidMove("", "G1")).to.equal(false);
     expect(isValidMove("", "E3")).to.equal(false);
-    expect(isValidMove("", "VA9")).to.equal(false);
-    expect(isValidMove("", "HA9")).to.equal(false);
-    expect(isValidMove("", "VA0")).to.equal(false);
-    expect(isValidMove("", "HA0")).to.equal(false);
+    expect(isValidMove("", "vA9")).to.equal(false);
+    expect(isValidMove("", "hA9")).to.equal(false);
+    expect(isValidMove("", "vA0")).to.equal(false);
+    expect(isValidMove("", "hA0")).to.equal(false);
   })
 
   it('should validate valid move(s)', () => {
-    expect(isValidMove("E2;E8", "HD2")).to.be.true
+    expect(isValidMove("E2;E8", "hD2")).to.be.true
   })
 
   it('should invalidate invalid move(s)', () => {
@@ -170,22 +160,22 @@ describe('Corridor - game', () => {
   })
 
   it('should update game state correctly', () => {
-   const move = "HD2"
-   const expected = `E2;E8;${move}`
-   expect(updateGameState("E2;E8", move)).to.equal(expected)
+    const move = "hD2"
+    const expected = `E2;E8;${move}`
+    expect(updateGameState("E2;E8", move)).to.equal(expected)
   })
 
   it('should detect wall move', () => {
-    expect(isWallMove('HD2')).to.be.true
-    expect(isWallMove('VD2')).to.be.true
+    expect(isWallMove('hD2')).to.be.true
+    expect(isWallMove('vD2')).to.be.true
     expect(isWallMove('E3')).to.be.false
   })
 
   it('should detect colliding walls', () => {
-    expect(isCollidingWall('HD2', 'VD2')).to.be.true
-    expect(isCollidingWall('HD2', 'VG2')).to.be.false
-    expect(isCollidingWall('VC6', 'VC6')).to.be.true
-    expect(isCollidingWall('VC6', 'HC6')).to.be.true
+    expect(isCollidingWall('hD2', 'vD2')).to.be.true
+    expect(isCollidingWall('hD2', 'vG2')).to.be.false
+    expect(isCollidingWall('vC6', 'vC6')).to.be.true
+    expect(isCollidingWall('vC6', 'hC6')).to.be.true
   })
 
   it('should validate special moves', () => {
