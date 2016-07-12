@@ -63,10 +63,12 @@ CorridorClient = function (options) {
   this.drawWalls = function () {
     var walls = this.options.gamestate.wallPositions;
     walls.forEach(function(wall) {
-      var height = wall.direction === 'H' ? 2 : this.wRect * 2;
-      var width = wall.direction === 'V' ? 2 : this.wRect * 2;
+      var height = wall.direction === 'v' ? 2 : this.wRect * 2;
+      var width = wall.direction === 'h' ? 2 : this.wRect * 2;
+      var x = wall.x * this.wRect;
+      var y = wall.y * this.wRect + this.wRect;
       this.ctx.fillStyle = 'rgb(0, 0, 0)';
-      this.ctx.fillRect(x, wall.y * this.wRect, height, width)
+      this.ctx.fillRect(x, y, height, width)
     }.bind(this))
   }
 
