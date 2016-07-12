@@ -65,8 +65,8 @@ CorridorClient = function (options) {
   this.drawWalls = function () {
     var walls = this.options.gamestate.wallPositions;
     walls.forEach(function(wall) {
-      var height = wall.direction === 'v' ? 4 : this.wRect * 4;
-      var width = wall.direction === 'h' ? 4 : this.wRect * 4;
+      var height = wall.direction === 'v' ? 4 : this.wRect * 2;
+      var width = wall.direction === 'h' ? 4 : this.wRect * 2;
       var x = wall.x * this.wRect;
       var y = wall.y * this.wRect;
       if(wall.direction === 'v') {
