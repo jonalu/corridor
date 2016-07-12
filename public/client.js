@@ -55,7 +55,9 @@ CorridorClient = function (options) {
       Math.floor((e.x - e.target.offsetLeft) / this.wRect),
       Math.floor((e.y - e.target.offsetTop) / this.wRect)
     ]
-    window.location = `/move/${this.toSquare(x,y)}?state=${this.options.gamestate.state}`
+    if(this.isValidMove(x,y)){
+      window.location = `/move/${this.toSquare(x,y)}?state=${this.options.gamestate.state}`
+    }
   }.bind(this)
 
   this.drawWalls = function () {
@@ -63,11 +65,15 @@ CorridorClient = function (options) {
     walls.forEach(function(wall) {
       var height = wall.direction === 'H' ? 2 : this.wRect * 2;
       var width = wall.direction === 'V' ? 2 : this.wRect * 2;
-      var x = wall.x * this.wRect;
-      var y = wall.y * this.wRect + this.wRect;
-      this.ctx.fillStyle = '#E91E63';
-      this.ctx.fillRect(x, y, width, height)
+      this.ctx.fillStyle = 'rgb(0, 0, 0)';
+      this.ctx.fillRect(x, wall.y * this.wRect, height, width)
     }.bind(this))
+  }
+
+  this.isValidMove = function (x, y) {
+    return this.options.gamestate.legalPawnMoves.filter(function(move){
+      return move.x === x && move.y === y;
+    }).length > 0;
   }
 
   this.toSquare = function (x,y) {
