@@ -66,7 +66,13 @@ CorridorClient = function (options) {
       var height = wall.direction === 'v' ? 2 : this.wRect * 2;
       var width = wall.direction === 'h' ? 2 : this.wRect * 2;
       var x = wall.x * this.wRect;
-      var y = wall.y * this.wRect + this.wRect;
+      var y = wall.y * this.wRect;
+      if(wall.direction === 'v') {
+        x += this.wRect;
+      }
+      if(wall.direction === 'h') {
+        y += this.wRect;
+      }
       this.ctx.fillStyle = 'rgb(0, 0, 0)';
       this.ctx.fillRect(x, y, height, width)
     }.bind(this))
