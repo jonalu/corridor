@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
   corridorClient.drawBoard();
   corridorClient.drawPawns();
   corridorClient.drawLegalMoves();
+  gameBoard.addEventListener('click', corridorClient.handleClick);
 });
 
 CorridorClient = function (options) {
@@ -27,7 +28,7 @@ CorridorClient = function (options) {
       for (var j = 0; j < this.options.squares; j++){
         this.ctx.strokeStyle = this.options.gridStroke;
         this.ctx.strokeRect(j * this.wRect, i * this.wRect, this.wRect, this.wRect);
-        this.ctx.fillText(this.toSquare(i,j), j * this.wRect + 2, i * this.wRect + 10);
+        this.ctx.fillText(this.toSquare(j,i), j * this.wRect + 2, i * this.wRect + 10);
       }
     }
   }
@@ -36,7 +37,7 @@ CorridorClient = function (options) {
     var pawns = this.options.gamestate.pawnPositions;
     pawns.forEach(function(pawn, idx) {
       this.ctx.fillStyle = 'rgb(' + 255 * idx + ',0,0)';
-      this.ctx.fillRect(pawn.y * this.wRect, pawn.x * this.wRect, this.wRect, this.wRect)
+      this.ctx.fillRect(pawn.x * this.wRect, pawn.y * this.wRect, this.wRect, this.wRect)
     }.bind(this))
   }
 
@@ -44,9 +45,17 @@ CorridorClient = function (options) {
     var legalPawnMoves = this.options.gamestate.legalPawnMoves;
     legalPawnMoves.forEach(function(move) {
       this.ctx.fillStyle = 'rgba(100, 210, 35, 0.3)';
-      this.ctx.fillRect(move.y * this.wRect, move.x * this.wRect, this.wRect, this.wRect)
+      this.ctx.fillRect(move.x * this.wRect, move.y * this.wRect, this.wRect, this.wRect)
     }.bind(this))
   }
+
+  this.handleClick = function (e) {
+    const [x,y] = [
+      Math.floor((e.x - e.target.offsetLeft) / this.wRect),
+      Math.floor((e.y - e.target.offsetTop) / this.wRect)
+    ]
+    window.location = `/move/${this.toSquare(x,y)}?state=${this.options.gamestate.state}`
+  }.bind(this)
 
   this.drawWalls = function () {
     //todo
