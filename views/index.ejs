@@ -7,32 +7,26 @@
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <nav>
-      <button><a href="/">New Game</a></button>
-    </nav>
+
     <section id="boards">
       <canvas id="game-board" width="450" height="450"></canvas>
     </section>
-    <section id="valid-pawn-moves" class="moves">
-      <% validPawnMoves.forEach(function(move) { %>
-        <a href="/move/<%- move %>?state=<%- state %>"><%- move %></a>
-      <% }); %>
-    </section>
-    <section id="valid-wall-moves" class="moves">
-      <% validWallMoves.forEach(function(move) { %>
-        <a href="/move/<%- move %>?state=<%- state %>"><%- move %></a>
-      <% }); %>
-    </section>
+
+    <nav>
+      <button><a href="/">New Game</a></button>
+    </nav>
+
     <script>
       window.gamestate = {
         state: "<%- state %>",
-        validPawnMoves: "<%- validPawnMoves %>",
-        validWallMoves: "<%- validWallMoves %>",
         pawnPositions: <%- JSON.stringify(pawnPositions) %>,
         wallPositions: <%- JSON.stringify(wallPositions) %>,
-        legalPawnMoves: <%- JSON.stringify(legalPawnMoves) %>
+        legalPawnMoves: <%- JSON.stringify(legalPawnMoves) %>,
+        legalWallMoves: <%- JSON.stringify(legalWallMoves) %>
       }
     </script>
+
     <script type="text/javascript" src="/static/client.js"></script>
+
   </body>
 </html>
