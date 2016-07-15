@@ -29,7 +29,7 @@ CorridorClient = function (options) {
       for (var j = 0; j < this.options.squares; j++){
         this.ctx.fillStyle = (i+j) % 2 ? '#7c7880' : '#b1b1b1';
         this.ctx.fillRect(j * this.wRect, i * this.wRect, this.wRect, this.wRect)
-        this.ctx.fillStyle = '#aaa';
+        this.ctx.fillStyle = (i+j) % 2 ? '#b1b1b1' : '#7c7880';
         this.ctx.fillText(this.toSquare(j,i), j * this.wRect + 4, i * this.wRect + 12);
       }
     }

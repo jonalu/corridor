@@ -8,18 +8,8 @@
   </head>
   <body>
     <nav>
-      <a href="/">New Game</a>
+      <button><a href="/">New Game</a></button>
     </nav>
-    <section id="game-state" class="flex-container">
-      <% state.split(";").forEach(function(move, i) { %>
-        <div class="move <%- !move ? 'no-moves' : '' %>">
-          <b><%- i + 1 %>.</b>
-          <span>
-            <%- move || 'Awaiting first move' %>
-          </span>
-        </div>
-      <% }) %>
-    </section>
     <section id="boards">
       <canvas id="game-board" width="450" height="450"></canvas>
     </section>

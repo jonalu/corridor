@@ -6,6 +6,10 @@ nav {
   padding: 10px 0;
 }
 
+nav button a {
+  text-decoration: none;
+}
+
 #boards {
   line-height: 0;
   text-align: center;
@@ -50,4 +54,8 @@ section {
 
 #game-state .move.no-moves {
   color: #717171;
+}
+
+#boards canvas {
+  border: 1px solid #000;
 }
